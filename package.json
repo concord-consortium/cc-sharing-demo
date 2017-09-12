@@ -1,0 +1,36 @@
+{
+  "name": "cc-sharing-demo",
+  "version": "1.0.3",
+  "description": "App to demo cc-sharing library features …",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/concord-consortium/cc-sharing-lib.git"
+  },
+  "scripts": {
+    "dev": "webpackp-dev-server"
+  },
+  "author": "Noah Paessel npaessel@concord.org",
+  "license": "MIT",
+  "dependencies": {
+    "iframe-phone": "^1.2.0",
+    "uuid": "^3.0.1",
+    "material-ui": "^0.19.0",
+    "moment": "^2.18.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "cc-sharing": "1.0.3",
+    "lodash": "~4.17.4"
+  },
+  "devDependencies": {
+    "@types/material-ui": "^0.18.0",
+    "@types/react": "^16.0.5",
+    "@types/react-dom": "^15.5.4",
+    "@types/uuid": "^2.0.29",
+    "@types/lodash": "4.14.74",
+    "awesome-typescript-loader": "^3.1.2",
+    "copy-webpack-plugin": "^4.0.1",
+    "tslint": "^5.6.0",
+    "typescript": "^2.5.2",
+    "webpack": "^2.2.1"
+  }
+}
