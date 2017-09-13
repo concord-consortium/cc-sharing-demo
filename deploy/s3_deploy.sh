@@ -11,11 +11,6 @@ if [ -d _site ]; then
   rm -rf _site
 fi
 
-if [ -d dist ]; then
-  rm -rf dist
-fi
-
-cp -r _bundles dist
 if [ "$TRAVIS_BRANCH" = "production" ]; then
   mv dist _site
 else
