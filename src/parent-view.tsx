@@ -41,6 +41,15 @@ export class PhoneTestView extends React.Component<PhoneTestProps, PhoneTestStat
     this.setupSharing();
   }
 
+  componentWillUpdate(prevProps:PhoneTestProps,prevState:PhoneTestState) {
+    const lastUrl = prevState.url;
+    const thisUrl = this.state.url;
+    if(lastUrl !== thisUrl) {
+      if(this.sharing) {
+        this.sharing.disconnect();
+      }
+    }
+  }
   componentDidUpdate(prevProps:PhoneTestProps,prevState:PhoneTestState) {
     const lastUrl = prevState.url;
     const thisUrl = this.state.url;

@@ -3,7 +3,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 
-import { PublishResponse, Representation, Text, Jpeg} from "cc-sharing";
+import { PublishResponse, Representation, Text, Jpeg, Png, Gif} from "cc-sharing";
 import * as _ from "lodash";
 import * as moment from "moment";
 
@@ -24,7 +24,9 @@ export class PublishableListView extends React.Component<PublishableListViewProp
 
   renderRep(rep:Representation) {
     let repElm = <div/>;
-    if(rep.type.type === Jpeg.type) {
+    if(rep.type.type === "image/jpg"
+      || rep.type.type === "image/png"
+      || rep.type.type === "image/gif") {
       repElm = <img src={rep.dataUrl} className="rep-thumbnail"/>;
     }
     if(rep.type.type === Text.type) {
