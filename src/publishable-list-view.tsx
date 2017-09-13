@@ -23,10 +23,8 @@ export class PublishableListView extends React.Component<PublishableListViewProp
   }
 
   renderRep(rep:Representation) {
-    let repElm = <div/>;
-    if(rep.type.type === "image/jpg"
-      || rep.type.type === "image/png"
-      || rep.type.type === "image/gif") {
+    let repElm = <div>(unable to represent)</div>;
+    if(rep.type.type === Png.type || rep.type.type === Gif.type || rep.type.type === Jpeg.type ) {
       repElm = <img src={rep.dataUrl} className="rep-thumbnail"/>;
     }
     if(rep.type.type === Text.type) {
@@ -63,7 +61,7 @@ export class PublishableListView extends React.Component<PublishableListViewProp
     const component:JSX.Element=
       <div className="representation">
         <div> <span>{time}</span> <a href={url} target="_blank">{name}</a></div>
-        { _.map(snapshot.representations, (rep:Representation) => this.renderRep(rep)) }
+        { _.map(snapshot.representations, (rep) => this.renderRep(rep)) }
         { _.map(kids, (child) => this.renderChild(child)) }
       </div>;
     return component;
