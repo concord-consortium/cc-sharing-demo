@@ -12,7 +12,7 @@
   "author": "Noah Paessel npaessel@concord.org",
   "license": "MIT",
   "dependencies": {
-    "cc-sharing": "^1.0.8",
+    "cc-sharing": "^1.0.9",
     "iframe-phone": "^1.2.0",
     "lodash": "~4.17.4",
     "material-ui": "^0.19.0",
