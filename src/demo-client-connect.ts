@@ -18,17 +18,17 @@ export const demoClientConnect = function(callback:Function) {
     // data Represenations.
     getDataFunc: (context) => {
       // 1. Construct a unique url from the sharing context:
-      const dataUrl = `${context.group.id}-${context.offering.id}-${context.user.id}`;
+      const dataUrl = `${context.group.id}-${context.offering.id}:: ${callback()}`;
       // 2. The promise constructs a list of data Represnetations:
       return new Promise((resolve, reject) => {
         resolve([
           {
             type: Text,
-            dataUrl: callback()
+            dataUrl: dataUrl
           },
           {
             type: Jpeg,
-            dataUrl: `http://foo.bar.com/#${dataUrl}.jpg`
+            dataUrl: "https://pbs.twimg.com/profile_images/447374371917922304/P4BzupWu.jpeg"
           }
         ]);
       });

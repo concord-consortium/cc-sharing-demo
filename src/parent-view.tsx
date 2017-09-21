@@ -18,6 +18,8 @@ import {
 export interface PhoneTestProps {}
 export interface PhoneTestState {
   url: string;
+  sharing_group: string;
+  sharing_clazz: string;
   connected: boolean;
   lastMessageType: string;
   snapshots: PublishResponse[];
@@ -31,6 +33,8 @@ export class PhoneTestView extends React.Component<PhoneTestProps, PhoneTestStat
     super(props);
     this.state = {
       url: "client.html",
+      sharing_group: "1",
+      sharing_clazz: "1",
       connected: false,
       lastMessageType: "(none)",
       snapshots: []
@@ -50,32 +54,40 @@ export class PhoneTestView extends React.Component<PhoneTestProps, PhoneTestStat
       }
     }
   }
+
   componentDidUpdate(prevProps:PhoneTestProps,prevState:PhoneTestState) {
     const lastUrl = prevState.url;
     const thisUrl = this.state.url;
     if(lastUrl !== thisUrl) {
       this.setupSharing();
     }
-    if(!this.sharing) {
-      this.setupSharing();
+    else {
+      this.resendInit();
+    }
+  }
+
+  setContext() {
+    this.context = {
+      protocolVersion: "1.0.0",
+      user: {displayName: "noah", id:"1"},
+      id: uuid.v1(),
+      group: {displayName: "noahs group", id: this.state.sharing_group},
+      offering: {displayName: "offering_id", id: "1"},
+      clazz:  {displayName: "clazz_id", id:  this.state.sharing_clazz},
+      localId: "x",
+      requestTime: new Date().toISOString()
+    };
+  }
+
+  resendInit() {
+    this.setContext();
+    if(this.sharing) {
+      this.sharing.resendInit(this.context);
     }
   }
 
   setupSharing() {
-    if(this.sharing) {
-      this.sharing.disconnect();
-    }
-    const context:Context = {
-      protocolVersion: "1.0.0",
-      user: {displayName: "noah", id:"1"},
-      id: uuid.v1(),
-      group: {displayName: "noahs group", id:"1"},
-      offering: {displayName: "offering_id", id: "1"},
-      clazz:  {displayName: "clazz_id", id: "1"},
-      localId: "x",
-      requestTime: new Date().toISOString()
-    };
-
+    this.setContext();
     const receivePub = (snapshot:PublishResponse) => {
       console.log(snapshot);
       const snapshots = this.state.snapshots;
@@ -88,22 +100,19 @@ export class PhoneTestView extends React.Component<PhoneTestProps, PhoneTestStat
       );
     };
 
-    if(this.sharing) {
-      this.sharing.disconnect();
-    }
     this.sharing = new SharingRelay({
       // context:context,
       app: {
         application: {
           launchUrl: `${window.location}`,
           name: "Demo Parent"},
-          getDataFunc: (context) => new Promise(
+          getDataFunc: (context:Context) => new Promise(
             (resolve, reject) => resolve([{dataUrl:"(nothing)", name:"nada", type:Text}])
           )
         }
     });
     this.sharing.addPublicationListener({newPublication: receivePub});
-    this.sharing.initializeAsTop(context);
+    this.sharing.initializeAsTop(this.context);
   }
 
   connectionComplete() {
@@ -112,6 +121,8 @@ export class PhoneTestView extends React.Component<PhoneTestProps, PhoneTestStat
 
   render() {
     const url = this.state.url;
+    const sharing_group = this.state.sharing_group;
+    const sharing_clazz = this.state.sharing_clazz;
     const connectionStatus = this.state.connected ? "Connected" : "Disconnected";
     const lastMessage = this.state.lastMessageType;
     const snapshots = this.state.snapshots;
@@ -129,6 +140,22 @@ export class PhoneTestView extends React.Component<PhoneTestProps, PhoneTestStat
                 floatingLabelText="iFrame Url"
                 value={url}
                 onChange={ (target,newvalue) => this.setState({url:newvalue})}
+                />
+            </div>
+            <div>
+              <TextField
+                hintText="1"
+                floatingLabelText="sharing_group"
+                value={sharing_group}
+                onChange={ (target,newvalue) => this.setState({sharing_group:newvalue})}
+                />
+            </div>
+            <div>
+              <TextField
+                hintText="1"
+                floatingLabelText="sharing_clazz"
+                value={sharing_clazz}
+                onChange={ (target,newvalue) => this.setState({sharing_clazz:newvalue})}
                 />
             </div>
           </div>
